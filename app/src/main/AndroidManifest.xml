@@ -14,10 +14,15 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CreateUser"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:label="Crear Usuario"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

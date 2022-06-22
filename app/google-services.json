@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "727303934992",
+    "project_id": "rm-store-6d1cb",
+    "storage_bucket": "rm-store-6d1cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727303934992:android:ba4f0b9b3aae12b36da695",
+        "android_client_info": {
+          "package_name": "co.edu.univalle.www"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727303934992-dc5sl69rgc2tkmfitmmkg88q988air2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX15kOsL0ESxDRINUlM2e5HeHSPJFnWS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "727303934992-dc5sl69rgc2tkmfitmmkg88q988air2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
