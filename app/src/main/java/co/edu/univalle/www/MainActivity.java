@@ -18,6 +18,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLauncher;
+    boolean isLogged = false;
+    String strId = "";
+
+    public void load(){
+
+        //onOptionsItemSelected(actionRestart);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +33,20 @@ public class MainActivity extends AppCompatActivity {
 
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
-                            Intent data = result.getData();
-                            String strCorreo = data.getStringExtra("correo");
-                            //System.out.println("APPMSG: "+ "OUT" + strCorreo);
-                        }
+                result -> {
+                    System.out.println("APPMSG: HERE IS THE PROBLEM " + result.getResultCode());
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // There are no request codes
+                        Intent data = result.getData();
+                        strId = data.getStringExtra("id");
+                        System.out.println("APPMSG: "+ "LOGGED " + strId);
+                        isLogged = true;
+                        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+                        bottomNavigationView.setSelectedItemId(R.id.user);
                     }
                 });
+
+
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -50,11 +60,6 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            boolean isLogged = false;
-            // By using switch we can easily get
-            // the selected fragment
-            // by using there id.
             Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.search:
@@ -62,14 +67,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.user:
                     if (isLogged){
-
+                        selectedFragment = new UserFragment();
                     } else{
-
-                        Intent createUserIntent = new Intent(getApplicationContext(), CreateUser.class);
-
-                        //startActivity(createUserIntent);
-                        activityResultLauncher.launch(createUserIntent);
-
+                        Intent login = new Intent(getApplicationContext(), Login.class);
+                        activityResultLauncher.launch(login) ;
                     }
                     break;
             }
