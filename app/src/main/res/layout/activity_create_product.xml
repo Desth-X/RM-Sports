@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateProduct">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvNombre"
+            style="@style/customTextView"
+            android:text="Nombre: " />
+
+        <EditText
+            android:id="@+id/etNombre"
+            style="@style/customEditText"
+            android:inputType="textPersonName"
+            android:text="EjNombreProducto" />
+
+        <TextView
+            android:id="@+id/tvDescripcion"
+            style="@style/customTextView"
+            android:text="Descripcion: " />
+
+        <EditText
+            android:id="@+id/etDescripcion"
+            style="@style/customEditText"
+            android:inputType="textPersonName"
+            android:text="EjDescripcionProducto" />
+
+        <TextView
+            android:id="@+id/tvPrecio"
+            style="@style/customTextView"
+            android:text="Precio: " />
+
+        <EditText
+            android:id="@+id/etPrecio"
+            style="@style/customEditText"
+            android:inputType="number"
+            android:text="EjPrecioProducto" />
+
+        <TextView
+            android:id="@+id/tvTipo"
+            style="@style/customTextView"
+            android:text="Tipo: " />
+
+        <Spinner
+            android:id="@+id/spTipo"
+            style="@style/customSpinner"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSeleccionarImagen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="@color/bars"
+            android:clickable="true"
+            android:textColor="#FFFFFF"
+            app:srcCompat="@drawable/car_ui_icon_add" />
+
+        <TextView
+            android:id="@+id/tvImagenesSeleccionadas"
+            style="@style/customTextView"
+            android:text="0 Imagenes Seleccionadas" />
+
+        <Button
+            android:id="@+id/btnPublicar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:text="Publicar"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

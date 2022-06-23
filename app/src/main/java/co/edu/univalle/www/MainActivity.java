@@ -21,11 +21,6 @@ public class MainActivity extends AppCompatActivity {
     boolean isLogged = false;
     String strId = "";
 
-    public void load(){
-
-        //onOptionsItemSelected(actionRestart);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

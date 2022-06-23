@@ -1,5 +1,6 @@
 package co.edu.univalle.www;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
         private ArrayList<String> localDataSet;
-        private ArrayList<Integer> images;
+        private ArrayList<Bitmap> images;
 
         /**
          * Provide a reference to the type of views that you are using
@@ -47,7 +48,7 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
          * @param dataSet String[] containing the data to populate views to be used
          * by RecyclerView.
          */
-        public RecyclerViewAdapter(ArrayList<String> dataSet, ArrayList<Integer> images) {
+        public RecyclerViewAdapter(ArrayList<String> dataSet, ArrayList<Bitmap> images) {
             localDataSet = dataSet;
             this.images = images;
         }
@@ -67,7 +68,8 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             viewHolder.getName().setText(localDataSet.get(position));
-            viewHolder.getImage().setImageResource(images.get(position));
+            //viewHolder.getImage().setImageResource(images.get(position));
+            viewHolder.getImage().setImageBitmap(images.get(position));
         }
 
         // Return the size of your dataset (invoked by the layout manager)
