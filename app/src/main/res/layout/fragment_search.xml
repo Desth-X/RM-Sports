@@ -9,7 +9,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        >
 
     </androidx.recyclerview.widget.RecyclerView>
 

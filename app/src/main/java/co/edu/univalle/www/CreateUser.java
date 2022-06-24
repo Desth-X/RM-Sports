@@ -3,10 +3,12 @@ package co.edu.univalle.www;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,10 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +39,23 @@ public class CreateUser extends AppCompatActivity {
     EditText etContrasena;
     EditText etContrasena2;
     Button btnCrearCuenta;
-    
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Finalizar la actividad cuando se presione atras
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_create_user);
+
         etCorreo = findViewById(R.id.etCorreo);
         etNombre = findViewById(R.id.etNombre);
         spTipo = findViewById(R.id.spTipo);
@@ -52,6 +69,7 @@ public class CreateUser extends AppCompatActivity {
         etContrasena2 = findViewById(R.id.etContrasena2);
         btnCrearCuenta = findViewById(R.id.btnCrearCuenta);
         btnCrearCuenta.setOnClickListener(view -> crearCuenta());
+
     }
 
     private void crearCuenta(){
@@ -84,7 +102,7 @@ public class CreateUser extends AppCompatActivity {
                 return;
             }
             ///////////////////////////////////////////////////////////////////
-            FirebaseApp.initializeApp(this);
+            //FirebaseApp.initializeApp(this);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             boolean existeUsuario = false;
             //se verifica que no exista el correo
@@ -105,35 +123,36 @@ public class CreateUser extends AppCompatActivity {
                                     user.put("correo", strCorreo);
                                     user.put("nombre", strNombre);
                                     user.put("tipo", strTipo);
-                                    user.put("contrasena", strContrasena);
+
+                                    MessageDigest md = null;
+                                    try {
+                                        md = MessageDigest.getInstance("MD5");
+                                    } catch (NoSuchAlgorithmException e) {
+                                        Log.d("APPMSG", "Error al tratar de cifrar la contraseña");
+                                        Toast.makeText(getApplicationContext(),"No ha sido posible crear la cuenta.",Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                    String encodedContrasena = Base64.getEncoder().encodeToString(strContrasena.getBytes());
+
+                                    user.put("contrasena", encodedContrasena);
                                     // Add a new document with a generated ID
                                     db.collection("usuarios")
                                             .add(user)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    System.out.println("APPMSG:" + "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                    //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                }
+                                            .addOnSuccessListener(documentReference -> {
+                                                System.out.println("APPMSG:" + "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
                                             })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    System.out.println("APPMSG: "+ "Error adding document " + e);
-                                                    //Log.w(TAG, "Error adding document", e);
-                                                }
+                                            .addOnFailureListener(e -> {
+                                                System.out.println("APPMSG: "+ "Error adding document " + e);
+                                                //Log.w(TAG, "Error adding document", e);
                                             });
                                     ///////////////////////////////////////////////////////////////////
-                                    Intent intent = new Intent();
-                                    intent.putExtra("correo", "test");
-                                    setResult(Activity.RESULT_OK, intent);
                                     finish();
                                     Toast.makeText(getApplicationContext(),"Usuario Creado con exito.",Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Toast.makeText(getApplicationContext(),"Error al consultar la base de datos.",Toast.LENGTH_SHORT).show();
                                 Log.d("APPMSG", "Error getting documents: ", task.getException());
-                                return;
                             }
                         }
                     });

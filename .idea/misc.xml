@@ -11,10 +11,17 @@
         <entry key="..\:/Users/Taavet/AndroidStudioProjects/RMSports/app/src/main/res/layout/row.xml" value="0.3625" />
         <entry key="..\:/Users/Taavet/AndroidStudioProjects/RMSports/app/src/main/res/menu/bottom_menu.xml" value="0.3625" />
         <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/drawable/user.xml" value="0.2985" />
-        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_create_user.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_create_product.xml" value="0.33" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_create_user.xml" value="0.25" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_login.xml" value="0.25104166666666666" />
         <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_main.xml" value="0.23333333333333334" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/activity_view_product_service.xml" value="0.2390625" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/fragment_search.xml" value="0.33" />
         <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/fragment_user.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/fragment_view_product.xml" value="0.2390625" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/row.xml" value="0.2390625" />
         <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/layout/user/fragment_create_user.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/Taavet/Desktop/RM-Sports/app/src/main/res/menu/bottom_menu.xml" value="0.2598958333333333" />
       </map>
     </option>
   </component>

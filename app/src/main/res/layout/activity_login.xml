@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateUser">
+    tools:context=".Login">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,27 +28,7 @@
             android:id="@+id/etCorreo"
             style="@style/customEditText"
             android:inputType="textEmailAddress"
-            android:text="example@example.com" />
-
-        <TextView
-            android:id="@+id/tvNombre"
-            style="@style/customTextView"
-            android:text="Nombre: " />
-
-        <EditText
-            android:id="@+id/etNombre"
-            style="@style/customEditText"
-            android:inputType="textPersonName"
-            android:text="Name Example" />
-
-        <TextView
-            android:id="@+id/tvTipo"
-            style="@style/customTextView"
-            android:text="Tipo: " />
-
-        <Spinner
-            android:id="@+id/spTipo"
-            style="@style/customSpinner"/>
+            android:text="david.estrada@null.net" />
 
         <TextView
             android:id="@+id/tvContrasena"
@@ -61,27 +41,28 @@
             android:inputType="textPassword"
             android:text="1234" />
 
-        <TextView
-            android:id="@+id/tvContrasena2"
-            style="@style/customTextView"
-            android:text="Digite nuevamente su contraseña:" />
-
-        <EditText
-            android:id="@+id/etContrasena2"
-            style="@style/customEditText"
-            android:inputType="textPassword"
-            android:text="1234" />
-
         <Button
-            android:id="@+id/btnCrearCuenta"
+            android:id="@+id/btnIniciarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:text="Crear Cuenta"
+            android:text="Iniciar Sesion"
             android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnCrearCuenta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="Crear Cuenta"
+            android:textColor="@color/highlights" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
