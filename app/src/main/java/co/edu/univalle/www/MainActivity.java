@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -21,7 +22,6 @@ import co.edu.univalle.www.modelo.Sesion;
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLauncher;
-    boolean isLogged = false;
     SearchFragment searchFragment;
     UserFragment userFragment;
     Sesion sesion;
@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sesion = new Sesion();
+        sesion = new Sesion(this);
 
         searchFragment = new SearchFragment(sesion);
-        userFragment = new UserFragment(sesion);
+        userFragment = new UserFragment(sesion, this);
 
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -43,8 +43,10 @@ public class MainActivity extends AppCompatActivity {
                         // There are no request codes
                         Intent data = result.getData();
                         sesion.setLoggedUser(data.getStringExtra("id"));
+                        //userFragment = new UserFragment(sesion);
+                        userFragment.update();
+                        //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, userFragment).commit();
                         System.out.println("APPMSG: "+ "LOGGED " + sesion.getLoggedUser());
-                        isLogged = true;
                         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
                         bottomNavigationView.setSelectedItemId(R.id.user);
                     }
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     fm.beginTransaction().show(searchFragment).hide(userFragment).commit();
                     break;
                 case R.id.user:
-                    if (isLogged){
+                    if (sesion.isLogged()){
                         fm.beginTransaction().hide(searchFragment).show(userFragment).commit();
                     } else{
                         Intent login = new Intent(getApplicationContext(), Login.class);

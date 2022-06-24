@@ -15,6 +15,7 @@ import android.os.FileUtils;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CreateProduct extends AppCompatActivity {
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //Finalizar la actividad cuando se presione atras
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     ActivityResultLauncher activityResultLauncher;
 
@@ -160,6 +172,7 @@ public class CreateProduct extends AppCompatActivity {
         user.put("nombre", strNombre);
         user.put("descripcion", strDescripcion);
         user.put("precio", strPrecio);
+        user.put("usuario", getIntent().getStringExtra("usuario"));
         user.put("tipo", strTipo);
         // Add a new document with a generated ID
         db.collection("productos_servicios")
@@ -190,8 +203,10 @@ public class CreateProduct extends AppCompatActivity {
                     //Log.w(TAG, "Error adding document", e);
                 });
         ///////////////////////////////////////////////////////////////////
+        setResult(Activity.RESULT_OK);
         finish();
         Toast.makeText(getApplicationContext(),strTipo+" Creado con exito.",Toast.LENGTH_SHORT).show();
+
 
     }
 }

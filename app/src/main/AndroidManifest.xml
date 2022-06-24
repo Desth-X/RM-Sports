@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.edu.univalle.www">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.hardware.sensor.proximity"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,6 +36,12 @@
             android:parentActivityName=".Login"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".CreateContact"
+            android:exported="false"
+            android:label="Creacion de Contactos"
+            android:parentActivityName=".CreateUser"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
             android:name=".CreateProduct"
             android:exported="false"
             android:label="Crear Produto o Servicio"
@@ -40,7 +50,8 @@
         <activity
             android:name=".ViewProductService"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:label="Producto o Servicio"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>

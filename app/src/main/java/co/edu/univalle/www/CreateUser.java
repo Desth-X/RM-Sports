@@ -1,5 +1,7 @@
 package co.edu.univalle.www;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,6 +43,8 @@ public class CreateUser extends AppCompatActivity {
     EditText etContrasena2;
     Button btnCrearCuenta;
 
+    ActivityResultLauncher<Intent> activityResultLauncher;
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         //Finalizar la actividad cuando se presione atras
@@ -55,6 +60,15 @@ public class CreateUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        finish();
+                        Toast.makeText(getApplicationContext(),"Usuario Creado con exito.",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         etCorreo = findViewById(R.id.etCorreo);
         etNombre = findViewById(R.id.etNombre);
@@ -119,10 +133,7 @@ public class CreateUser extends AppCompatActivity {
                                 else{
                                     ///////////////////////////////////////////////////////////////////
                                     // Create a new user with a first and last name
-                                    Map<String, Object> user = new HashMap<>();
-                                    user.put("correo", strCorreo);
-                                    user.put("nombre", strNombre);
-                                    user.put("tipo", strTipo);
+
 
                                     MessageDigest md = null;
                                     try {
@@ -134,21 +145,16 @@ public class CreateUser extends AppCompatActivity {
                                     }
                                     String encodedContrasena = Base64.getEncoder().encodeToString(strContrasena.getBytes());
 
-                                    user.put("contrasena", encodedContrasena);
-                                    // Add a new document with a generated ID
-                                    db.collection("usuarios")
-                                            .add(user)
-                                            .addOnSuccessListener(documentReference -> {
-                                                System.out.println("APPMSG:" + "DocumentSnapshot added with ID: " + documentReference.getId());
-                                                //Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                            })
-                                            .addOnFailureListener(e -> {
-                                                System.out.println("APPMSG: "+ "Error adding document " + e);
-                                                //Log.w(TAG, "Error adding document", e);
-                                            });
+                                    Intent createContact = new Intent(getApplicationContext(), CreateContact.class);
+                                    createContact.putExtra("correo", strCorreo);
+                                    createContact.putExtra("nombre", strNombre);
+                                    createContact.putExtra("tipo", strTipo);
+                                    createContact.putExtra("contrasena", encodedContrasena);
+                                    activityResultLauncher.launch(createContact) ;
+
+
                                     ///////////////////////////////////////////////////////////////////
-                                    finish();
-                                    Toast.makeText(getApplicationContext(),"Usuario Creado con exito.",Toast.LENGTH_SHORT).show();
+
                                 }
                             } else {
                                 Toast.makeText(getApplicationContext(),"Error al consultar la base de datos.",Toast.LENGTH_SHORT).show();

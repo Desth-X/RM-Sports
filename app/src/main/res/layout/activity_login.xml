@@ -28,7 +28,7 @@
             android:id="@+id/etCorreo"
             style="@style/customEditText"
             android:inputType="textEmailAddress"
-            android:text="david.estrada@null.net" />
+            android:text="example@example.com" />
 
         <TextView
             android:id="@+id/tvContrasena"
