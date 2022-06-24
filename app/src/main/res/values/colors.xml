@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bars">#003F00</color>
-    <color name="highlights">#00FF00</color>
+    <color name="bars">#003F3F</color>
+    <color name="highlights">#00FFFF</color>
     <color name="gray">#7F7F7F</color>
 
     <color name="purple_200">#FFBB86FC</color>

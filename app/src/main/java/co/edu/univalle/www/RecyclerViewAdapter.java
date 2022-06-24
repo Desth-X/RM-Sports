@@ -1,6 +1,7 @@
 package co.edu.univalle.www;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import co.edu.univalle.www.modelo.ProductSelectedListener;
+import co.edu.univalle.www.modelo.ProductoServicio;
+import co.edu.univalle.www.modelo.Sesion;
+
 public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-        private ArrayList<String> localDataSet;
-        private ArrayList<Bitmap> images;
+        private ArrayList<ProductoServicio> arlProductosServicios;
+
+        ArrayList<ProductSelectedListener> listeners;
+
+        Sesion sesion;
 
         /**
          * Provide a reference to the type of views that you are using
@@ -24,33 +32,44 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
 
             private final TextView name;
             private final ImageView image;
+            private final TextView precio;
+            private ProductoServicio productoServicio;
 
-            public ViewHolder(View view) {
+            public ViewHolder(Sesion sesion, View view, ArrayList<ProductSelectedListener> listeners) {
                 super(view);
                 // Define click listener for the ViewHolder's View
-
-                name = (TextView) view.findViewById(R.id.name);
+                productoServicio = new ProductoServicio();
+                view.setOnClickListener(srcView -> {
+                    for (int i = 0; i < listeners.size(); i++) {
+                        listeners.get(i).onProductSelected(productoServicio);
+                    }
+                });
+                name = view.findViewById(R.id.name);
                 image = view.findViewById(R.id.image);
+                precio = view.findViewById(R.id.precio);
             }
 
-            public TextView getName() {
-                return name;
-            }
-
-            public ImageView getImage(){
-                return image;
+            public void setProductoServicio(ProductoServicio productoServicio) {
+                this.productoServicio = productoServicio;
+                name.setText(productoServicio.getNombre());
+                precio.setText("$ " + productoServicio.getPrecio() + " COP");
+                try{
+                    image.setImageBitmap(productoServicio.getImagen());
+                }catch (Exception ex){
+                    image.setImageResource(R.drawable.ic_baseline_filter_24);
+                }
             }
         }
 
-        /**
-         * Initialize the dataset of the Adapter.
-         *
-         * @param dataSet String[] containing the data to populate views to be used
-         * by RecyclerView.
-         */
-        public RecyclerViewAdapter(ArrayList<String> dataSet, ArrayList<Bitmap> images) {
-            localDataSet = dataSet;
-            this.images = images;
+
+        public RecyclerViewAdapter(ArrayList<ProductoServicio> arlProductoServicios, Sesion sesion) {
+            this.sesion = sesion;
+            this.arlProductosServicios = arlProductoServicios;
+            listeners = new ArrayList<>();
+        }
+
+        public void addOnProductSelectedListener(ProductSelectedListener listener){
+            listeners.add(listener);
         }
 
         // Create new views (invoked by the layout manager)
@@ -59,23 +78,20 @@ public class RecyclerViewAdapter  extends RecyclerView.Adapter<RecyclerViewAdapt
             // Create a new view, which defines the UI of the list item
             View view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.row, viewGroup, false);
-            return new ViewHolder(view);
+            return new ViewHolder(sesion, view, listeners);
         }
 
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-            // Get element from your dataset at this position and replace the
-            // contents of the view with that element
-            viewHolder.getName().setText(localDataSet.get(position));
-            //viewHolder.getImage().setImageResource(images.get(position));
-            viewHolder.getImage().setImageBitmap(images.get(position));
+            ProductoServicio productoServicio = arlProductosServicios.get(position);
+            viewHolder.setProductoServicio(productoServicio);
         }
 
         // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
-            return localDataSet.size();
+            return arlProductosServicios.size();
         }
 
 

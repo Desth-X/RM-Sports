@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RMSports">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -36,6 +37,10 @@
             android:label="Crear Produto o Servicio"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ViewProductService"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,26 +16,34 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import co.edu.univalle.www.modelo.Sesion;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> activityResultLauncher;
     boolean isLogged = false;
-    String strId = "";
+    SearchFragment searchFragment;
+    UserFragment userFragment;
+    Sesion sesion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sesion = new Sesion();
+
+        searchFragment = new SearchFragment(sesion);
+        userFragment = new UserFragment(sesion);
+
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    System.out.println("APPMSG: HERE IS THE PROBLEM " + result.getResultCode());
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         // There are no request codes
                         Intent data = result.getData();
-                        strId = data.getStringExtra("id");
-                        System.out.println("APPMSG: "+ "LOGGED " + strId);
+                        sesion.setLoggedUser(data.getStringExtra("id"));
+                        System.out.println("APPMSG: "+ "LOGGED " + sesion.getLoggedUser());
                         isLogged = true;
                         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
                         bottomNavigationView.setSelectedItemId(R.id.user);
@@ -49,35 +58,33 @@ public class MainActivity extends AppCompatActivity {
         // as soon as the application opens the first
         // fragment should be shown to the user
         // in this case it is algorithm fragment
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().add(R.id.fragment_container, searchFragment, "1").commit();
+        fm.beginTransaction().add(R.id.fragment_container, userFragment, "2").hide(userFragment).commit();
+        //fm.beginTransaction().replace(R.id.fragment_container, new SearchFragment()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
+            //Fragment selectedFragment = null;
+            FragmentManager fm = getSupportFragmentManager();
             switch (item.getItemId()) {
                 case R.id.search:
-                    selectedFragment = new SearchFragment();
+                    //selectedFragment = searchFragment;
+                    fm.beginTransaction().show(searchFragment).hide(userFragment).commit();
                     break;
                 case R.id.user:
                     if (isLogged){
-                        selectedFragment = new UserFragment();
+                        fm.beginTransaction().hide(searchFragment).show(userFragment).commit();
                     } else{
                         Intent login = new Intent(getApplicationContext(), Login.class);
                         activityResultLauncher.launch(login) ;
                     }
                     break;
             }
-            // It will help to replace the
-            // one fragment to other.
-            if(isLogged){
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
-                        .commit();
-            }
             return true;
         }
     };
+
 }
